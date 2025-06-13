@@ -3,7 +3,9 @@ import { User } from "./users.model.js";
 import jwt from "jsonwebtoken";
 
 const createUserIntoDb = async (payLoad) => {
-  const { name, email, password } = payLoad;
+  const { name, email, password, role } = payLoad;
+
+  console.log(" payload from userdata",payLoad);
 
   const existingsUser = await User.findOne({ email });
   if (existingsUser) {
@@ -16,6 +18,7 @@ const createUserIntoDb = async (payLoad) => {
     name,
     email,
     password: hashPassword,
+    role
   });
 
   return {
@@ -32,6 +35,8 @@ const loginUser = async (payLoad) => {
   const { email, name, password } = payLoad;
 
   const user = await User.findOne({ email });
+
+
 
   if (!user) {
     throw new Error(" user not found ");
